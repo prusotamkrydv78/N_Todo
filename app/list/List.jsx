@@ -23,7 +23,7 @@ const List = ({ data }) => {
       "from-amber-100 to-yellow-100 dark:from-amber-900/30 dark:to-yellow-900/30",
   };
   const handleDelete = async (id) => {
-    const res = await fetch(`http://localhost:3000/api/crud`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/crud`, {
       method: "DELETE",
       body: JSON.stringify({ id }),
       headers: {

@@ -16,7 +16,9 @@ const CreateTodo = ({ todoId }) => {
   }, [todoId]);
   const fetchTodo = async () => {
     try {
-      const res = await fetch(`/api/crud/${todoId}`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/crud/${todoId}`
+      );
       if (!res.ok) {
         throw new Error("Failed to fetch todo");
       }
@@ -47,7 +49,7 @@ const CreateTodo = ({ todoId }) => {
 
   const createTodo = async () => {
     try {
-      const res = await fetch("/api/crud", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/crud`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
