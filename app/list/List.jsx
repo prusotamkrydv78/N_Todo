@@ -130,11 +130,11 @@ const List = ({ data }) => {
         <p className="text-slate-600 mb-8 max-w-sm mx-auto">
           Start organizing your tasks by creating your first todo
         </p>
-        <a
-          href="/crud/create"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pastel-blue to-pastel-purple text-white hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-200 transform hover:-translate-y-0.5"
+        <Link
+          href="/create"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pastel-blue to-pastel-purple shadow-sm hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-200 transform hover:-translate-y-0.5"
         >
-          <span>Create First Todo</span>
+          <span className="text-slate">Create First Todo</span>
           <svg
             className="w-4 h-4"
             fill="none"
@@ -148,7 +148,7 @@ const List = ({ data }) => {
               d="M12 4v16m8-8H4"
             />
           </svg>
-        </a>
+        </Link>
       </div>
     );
   }
