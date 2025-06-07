@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Soft Pastel Colors */
+  --pastel-blue: #E3F2FD;
+  --pastel-purple: #F3E5F5;
+  --pastel-pink: #FFF0F5;
+  --pastel-mint: #E8F5E9;
+  --pastel-peach: #FBE9E7;
+  
+  /* System Colors */
+  --background: #FFFFFF;
+  --card-background: #FFFFFF;
+  --foreground: #2D3748;
+  --primary: #7C85F9;
+  --primary-hover: #6670E8;
+  --primary-soft: #E8EBFF;
+  --secondary: #F7FAFC;
+  --border: #EDF2F7;
+  --ring: rgba(124, 133, 249, 0.15);
+  
+  /* Soft Shadows */
+  --shadow-soft: 0 2px 20px rgba(124, 133, 249, 0.08);
+  --shadow-soft-lg: 0 8px 32px rgba(124, 133, 249, 0.12);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* Keep light theme for better pastel aesthetics */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #FFFFFF;
+    --card-background: #FFFFFF;
+    --foreground: #2D3748;
   }
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-purple));
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+/* Soft UI Components */
+.soft-card {
+  background: var(--card-background);
+  border-radius: 24px;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+}
+
+.soft-card:hover {
+  box-shadow: var(--shadow-soft-lg);
+  transform: translateY(-2px);
+}
+
+/* Soft Buttons */
+.btn-soft {
+  background: var(--primary-soft);
+  color: var(--primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-soft:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Soft Form Elements */
+.input-soft {
+  background: var(--secondary);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.input-soft:focus {
+  background: white;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--ring);
 }
