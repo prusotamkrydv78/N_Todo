@@ -1,19 +1,51 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
-const Page = () => {
+const CreateTodo = ({ todoId }) => {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [todos, setTodos] = React.useState({
     title: "",
     description: "",
   });
-
+  useEffect(() => {
+    if (todoId) {
+      fetchTodo();
+    }
+  }, [todoId]);
+  const fetchTodo = async () => {
+    try {
+      const res = await fetch(`/api/crud/${todoId}`);
+      if (!res.ok) {
+        throw new Error("Failed to fetch todo");
+      }
+      const data = await res.json();
+      setTodos({
+        title: data.todo.title,
+        description: data.todo.description,
+      });
+    } catch (error) {
+      console.error("Error fetching todo:", error);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    if (todoId) {
+      await updateTodo();
+    } else {
+      await createTodo();
+    }
+    setTodos({
+      title: "",
+      description: "",
+    });
+    setLoading(false);
+    router.push("/list");
+  };
 
+  const createTodo = async () => {
     try {
       const res = await fetch("/api/crud", {
         method: "POST",
@@ -26,10 +58,27 @@ const Page = () => {
       if (!res.ok) {
         throw new Error("Failed to create todo");
       }
-
-      router.push("/list");
     } catch (error) {
       console.error("Error creating todo:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const updateTodo = async () => {
+    try {
+      const res = await fetch(`/api/crud`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...todos, id: todoId }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to update todo");
+      }
+    } catch (error) {
+      console.error("Error updating todo:", error);
     } finally {
       setLoading(false);
     }
@@ -104,7 +153,9 @@ const Page = () => {
               className="w-full px-4 py-3 rounded-xl border border-blue-100 bg-white text-slate-700 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 transition-all duration-200 min-h-[160px] resize-y placeholder:text-slate-400"
               placeholder="Add more details about this task..."
               value={todos.description}
-              onChange={(e) => setTodos({ ...todos, description: e.target.value })}
+              onChange={(e) =>
+                setTodos({ ...todos, description: e.target.value })
+              }
             />
             <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-200/20 to-purple-200/20 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300"></div>
           </div>
@@ -138,7 +189,11 @@ const Page = () => {
           >
             {loading ? (
               <>
-                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                <svg
+                  className="animate-spin h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
                   <circle
                     className="opacity-25"
                     cx="12"
@@ -170,7 +225,7 @@ const Page = () => {
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                   />
                 </svg>
-                <span>Create Todo</span>
+                <span>{todoId ? "Update " : "Create "}Todo</span>
               </>
             )}
           </button>
@@ -180,4 +235,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default CreateTodo;
