@@ -1,8 +1,7 @@
 import React from "react";
 import CreateTodo from "@/app/create/page";
 const page = async ({ params }) => {
-  const { todoId } = await params;
-  console.log("todoId", todoId);
+  const { todoId } = await params; 
   return <CreateTodo todoId={todoId} />;
 };
 

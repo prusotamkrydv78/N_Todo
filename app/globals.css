@@ -83,3 +83,60 @@ body {
   border-color: var(--primary);
   box-shadow: 0 0 0 4px var(--ring);
 }
+
+/* Responsive Utilities */
+@layer utilities {
+  .container-responsive {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .text-responsive {
+    @apply text-base sm:text-lg lg:text-xl;
+  }
+  
+  .card-responsive {
+    @apply p-4 sm:p-6 lg:p-8 rounded-xl sm:rounded-2xl;
+  }
+}
+
+/* Mobile-first Card Styles */
+.card {
+  @apply bg-white rounded-xl shadow-sm transition-all duration-200 p-4 sm:p-6;
+}
+
+.card:hover {
+  @apply shadow-lg transform -translate-y-1;
+}
+
+/* Responsive Form Elements */
+.input-responsive {
+  @apply w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl;
+}
+
+/* Responsive Button Styles */
+.btn {
+  @apply px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl transition-all duration-200;
+}
+
+/* Responsive Container Padding */
+.section-padding {
+  @apply py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8;
+}
+
+/* Responsive Typography */
+h1 {
+  @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold;
+}
+
+h2 {
+  @apply text-xl sm:text-2xl md:text-3xl font-bold;
+}
+
+h3 {
+  @apply text-lg sm:text-xl font-semibold;
+}
+
+/* Responsive Grid Layout */
+.grid-responsive {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8;
+}

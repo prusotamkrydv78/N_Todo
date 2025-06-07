@@ -85,15 +85,19 @@ const CreateTodo = ({ todoId }) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.1)] border border-blue-100/80">
-      <div className="mb-8 text-center">
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-          Create New Todo
+    <div className="max-w-2xl mx-auto p-4 sm:p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl sm:rounded-2xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.1)] border border-blue-100/80">
+      <div className="mb-6 sm:mb-8 text-center">
+        <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+          {todoId ? "Update Todo" : "Create New Todo"}
         </h2>
-        <p className="text-slate-600">Add a new task to your collection</p>
+        <p className="text-sm sm:text-base text-slate-600">
+          {todoId
+            ? "Update your task details"
+            : "Add a new task to your collection"}
+        </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
         <div className="space-y-2">
           <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
             <svg
@@ -161,11 +165,11 @@ const CreateTodo = ({ todoId }) => {
           </div>
         </div>
 
-        <div className="flex items-center justify-end space-x-4 pt-6">
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:justify-end pt-6">
           <button
             type="button"
             onClick={() => router.push("/list")}
-            className="px-6 py-2.5 text-sm font-medium rounded-full border border-blue-200 text-slate-600 hover:bg-blue-50 hover:border-blue-300 transition-all duration-200 flex items-center gap-2"
+            className="w-full sm:w-auto px-4 sm:px-6 py-2.5 text-sm font-medium rounded-full border border-blue-200 text-slate-600 hover:bg-blue-50 hover:border-blue-300 transition-all duration-200 flex items-center justify-center gap-2"
           >
             <svg
               className="w-4 h-4"
@@ -185,7 +189,7 @@ const CreateTodo = ({ todoId }) => {
           <button
             type="submit"
             disabled={loading}
-            className="px-6 py-2.5 text-sm font-medium rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 hover:-translate-y-0.5 flex items-center gap-2"
+            className="w-full sm:w-auto px-4 sm:px-6 py-2.5 text-sm font-medium rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:from-blue-600 hover:to-purple-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 hover:-translate-y-0.5 flex items-center justify-center gap-2"
           >
             {loading ? (
               <>

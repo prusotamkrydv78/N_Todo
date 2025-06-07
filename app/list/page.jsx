@@ -11,8 +11,7 @@ const Page = async () => {
   if (!res.ok) {
     throw new Error("Failed to fetch todos");
   }
-  const data = await res.json();
-  console.log(data);
+  const data = await res.json(); 
 
   return <List data={data.todos} loading={false} error={null} />;
 };

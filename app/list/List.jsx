@@ -9,8 +9,7 @@ const List = ({ data }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   useEffect(() => {
-    setTodos(data);
-    console.log("Todos fetched:", data);
+    setTodos(data); 
     setLoading(false);
   }, [data]);
   const gradientStyles = {
@@ -32,8 +31,7 @@ const List = ({ data }) => {
       },
     });
     if (res.ok) {
-      setTodos(todos.filter((todo) => todo._id !== id));
-      console.log("Todo deleted successfully");
+      setTodos(todos.filter((todo) => todo._id !== id)); 
     } else {
       const errorData = await res.json();
       setError(errorData.error || "Failed to delete todo");
@@ -260,7 +258,7 @@ const List = ({ data }) => {
                 <p className="text-slate-600 leading-relaxed min-h-[60px]">
                   {todo.description}
                 </p>
-                <div className="mt-4 pt-4 border-t border-slate-200/50 flex items-center justify-between">
+                <div className="mt-4 pt-4 border-t border-slate-200/50 flex items-center justify-between relative">
                   <div className="flex items-center text-sm text-slate-500">
                     <svg
                       className="w-4 h-4 mr-2"
@@ -280,7 +278,7 @@ const List = ({ data }) => {
                       day: "numeric",
                     })}
                   </div>
-                  <button className="opacity-0 group-hover:opacity-100 transition-all duration-300 text-blue-600 hover:text-blue-700 transform group-hover:translate-x-1">
+                  <button className="opacity-0 group-hover:opacity-100 transition-all duration-300 text-blue-600 hover:text-blue-700 transform group-hover:translate-x-1 hidden md:inline">
                     <svg
                       className="w-5 h-5"
                       fill="none"
@@ -295,6 +293,48 @@ const List = ({ data }) => {
                       />
                     </svg>
                   </button>
+                  <div className="absolute top-2 right-0 flex items-center gap-2  group-hover:opacity-100 transition-all duration-300 md:hidden">
+                    <button
+                      className="p-2 rounded-lg bg-white/80 hover:bg-white text-blue-600 hover:text-blue-700 transition-all duration-200 shadow-sm hover:shadow hover:rotate-12"
+                      onClick={() => router.push(`/edit/${todo._id}`)}
+                    >
+                      <span className="block transform transition-transform ">
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+                    <button
+                      className="p-2 rounded-lg bg-white/80 hover:bg-white text-red-500 hover:text-red-600 transition-all duration-200 shadow-sm hover:shadow hover:rotate-12"
+                      onClick={() => handleDelete(todo._id)}
+                    >
+                      <span className="block transform transition-transform ">
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

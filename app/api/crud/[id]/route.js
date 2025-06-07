@@ -3,7 +3,7 @@ import TodoModel from "@/models/todo";
 import { NextResponse } from "next/server";
 
 export const GET = async (req, { params }) => {
-  const { id } = params;
+  const { id } = await params;
   await connectDb();
   try {
     if (!id) {
