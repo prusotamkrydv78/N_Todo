@@ -1,4 +1,7 @@
+import UserModel from "@/models/User.model";
 import { NextResponse } from "next/server";
+import bcrypt from "bcrypt";
+import connectDb from "@/database/connectDb";
 
 export const GET = async (req) => {
   return NextResponse.json({
@@ -8,11 +11,9 @@ export const GET = async (req) => {
 };
 
 export const POST = async (req) => {
+  connectDb();
   try {
     const { username, password } = await req.json();
-
-    // Here you would typically validate the user credentials against your database
-    // For demonstration, we will assume a successful login if both fields are provided
     if (!username || !password) {
       return NextResponse.json(
         { message: "Username and password are required" },
@@ -20,10 +21,24 @@ export const POST = async (req) => {
       );
     }
 
-    // Simulate a successful login response
+    const userFound = await UserModel.findOne({ username });
+
+    if (!userFound) {
+      return NextResponse.json(
+        { message: "Invalid Credentils, Please Try Again!" },
+        { status: 401 }
+      );
+    }
+    const isPasswordValid = await bcrypt.compare(password, userFound.password);
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { message: "Invalid password" },
+        { status: 401 }
+      );
+    }
     return NextResponse.json({
       message: "Login successful",
-      user: { username },
+      user: userFound,
       status: "success",
     });
   } catch (error) {
