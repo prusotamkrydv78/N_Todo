@@ -1,8 +1,10 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import useAuth from "../hooks/useAuth";
 
 const CreateTodo = ({ todoId }) => {
+ 
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [todos, setTodos] = React.useState({
@@ -86,7 +88,8 @@ const CreateTodo = ({ todoId }) => {
     }
   };
 
-  return (
+  return (useAuth() &&
+  (
     <div className="max-w-2xl mx-auto p-4 sm:p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl sm:rounded-2xl shadow-[0_8px_30px_-12px_rgba(0,0,0,0.1)] border border-blue-100/80">
       <div className="mb-6 sm:mb-8 text-center">
         <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
@@ -238,7 +241,7 @@ const CreateTodo = ({ todoId }) => {
         </div>
       </form>
     </div>
-  );
+  ))
 };
 
 export default CreateTodo;

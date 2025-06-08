@@ -20,9 +20,7 @@ export const POST = async (req) => {
         { status: 400 }
       );
     }
-
     const userFound = await UserModel.findOne({ username });
-
     if (!userFound) {
       return NextResponse.json(
         { message: "Invalid Credentils, Please Try Again!" },
@@ -32,7 +30,7 @@ export const POST = async (req) => {
     const isPasswordValid = await bcrypt.compare(password, userFound.password);
     if (!isPasswordValid) {
       return NextResponse.json(
-        { message: "Invalid password" },
+        { message: "Invalid Credentils, Please Try Again!" },
         { status: 401 }
       );
     }

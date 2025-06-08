@@ -1,6 +1,6 @@
-import List from "../../components/List";
+import List from "../../components/List"; 
 
-const Page = async () => {
+const Page = async () => { 
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/crud`, {
     cache: "no-store",
     next: { revalidate: 10 },
@@ -13,7 +13,7 @@ const Page = async () => {
   }
   const data = await res.json();
 
-  return <List data={data.todos} loading={false} error={null} />;
+  return  <List data={data.todos} loading={false} error={null} />;
 };
 
 export default Page;

@@ -29,7 +29,16 @@ const LoginPage = () => {
     });
     if (res.ok) {
       // Handle successful login, e.g., redirect to dashboard
-      console.log("Login successful!", await res.json());
+      const user =( await res.json()).user;
+      console.log("user login with ", user);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          isLogined: true,
+          fullName: user.fullName,
+          username: user.username,
+        })
+      );
       router.push("/");
     } else {
       // Handle error
