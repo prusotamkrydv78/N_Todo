@@ -1,23 +1,68 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const RegisterPage = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
-    email: "",
     password: "",
     confirmPassword: "",
+  });
+  const [error, setError] = useState({
+    error: false,
+    message: "",
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.password !== formData.confirmPassword) {
+      setError({
+        error: true,
+        message: "Passwords do not match",
+      });
+      return;
+    }
     // Handle registration logic here
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fullName: formData.fullName,
+        username: formData.username,
+        password: formData.password,
+      }),
+    });
+    if (res.ok) {
+      router.push("/auth/login");
+
+      // Registration successful, redirect or show success message
+      console.log("Registration successful!", await res.json());
+    } else {
+      // Handle error
+      const errorData = await res.json();
+      console.log(`Registration failed: ${errorData.message}`);
+      setError({
+        error: true,
+        message: errorData.message || "Registration failed. Please try again.",
+      });
+    }
+
+    // Reset form after submission
+    setFormData({
+      fullName: "",
+      username: "",
+      password: "",
+      confirmPassword: "",
+    });
   };
 
   return (
@@ -126,8 +171,31 @@ const RegisterPage = () => {
           </Link>
         </p>
       </div>
+      {error.error && (
+        <ErrorMessage
+          message={error.message}
+          onClose={() => setError({ error: false, message: "" })}
+        />
+      )}
     </div>
   );
 };
 
 export default RegisterPage;
+
+const ErrorMessage = ({ message, onClose }) => {
+  return (
+    <div className=" absolute top-18 right-2  flex items-center justify-center p-4 bg-red-100">
+      <div className="max-w-md w-full bg-white p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-bold text-red-600 mb-4">Error</h2>
+        <p className="text-red-500">{message}</p>
+        <button
+          onClick={onClose}
+          className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};

@@ -1,4 +1,7 @@
+import UserModel from "@/models/User.model";
 import { NextResponse } from "next/server";
+import bcrypt from "bcrypt";
+import connectDb from "@/database/connectDb";
 
 export const GET = async (req) => {
   return NextResponse.json({
@@ -6,12 +9,12 @@ export const GET = async (req) => {
     status: "success",
   });
 };
+
 export const POST = async (req) => {
+  connectDb()
   try {
     const { fullName, username, password } = await req.json();
 
-    // Here you would typically save the user to your database
-    // For demonstration, we will assume a successful registration if all fields are provided
     if (!fullName || !username || !password) {
       return NextResponse.json(
         { message: "All fields are required" },
@@ -19,10 +22,27 @@ export const POST = async (req) => {
       );
     }
 
-    // Simulate a successful registration response
+    const existingUser = await UserModel.findOne({ username });
+    if (existingUser) {
+      return NextResponse.json(
+        { message: "Username already taken" },
+        { status: 400 }
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new UserModel({
+      fullName,
+      username,
+      password: hashedPassword,
+    });
+
+    await newUser.save();
+
     return NextResponse.json({
       message: "Registration successful",
-      user: { fullName, username },
+      user: newUser,
       status: "success",
     });
   } catch (error) {

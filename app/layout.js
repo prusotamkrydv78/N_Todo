@@ -8,8 +8,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) { 
-
-console.log(fullURL)
+ 
   return (
     <html lang="en">
       <body className="bg-gradient-to-br from-slate-50 to-slate-100">
