@@ -17,7 +17,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("/api/auth/login", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,21 +29,12 @@ const LoginPage = () => {
     });
     if (res.ok) {
       // Handle successful login, e.g., redirect to dashboard
-      const user =( await res.json()).user;
-      console.log("user login with ", user);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          isLogined: true,
-          fullName: user.fullName,
-          username: user.username,
-        })
-      );
+      const user = (await res.json()).user;
+
       router.push("/");
     } else {
       // Handle error
-      const errorData = await res.json();
-      console.log(`Login failed: ${errorData.message}`);
+      const errorData = await res.json(); 
       setError({
         error: true,
         message: errorData.message || "Login failed. Please try again.",

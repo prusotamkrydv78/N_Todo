@@ -30,7 +30,7 @@ const RegisterPage = () => {
       return;
     }
     // Handle registration logic here
-    const res = await fetch("/api/auth/register", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -42,14 +42,10 @@ const RegisterPage = () => {
       }),
     });
     if (res.ok) {
-      router.push("/auth/login");
-
-      // Registration successful, redirect or show success message
-      console.log("Registration successful!", await res.json());
+      router.push("/auth/login"); 
     } else {
       // Handle error
-      const errorData = await res.json();
-      console.log(`Registration failed: ${errorData.message}`);
+      const errorData = await res.json(); 
       setError({
         error: true,
         message: errorData.message || "Registration failed. Please try again.",

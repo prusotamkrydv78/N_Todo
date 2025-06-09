@@ -6,7 +6,13 @@ import connectDb from "@/database/connectDb";
 export const GET = async (req) => {
   await connectDb();
   try {
-    const getTodos = await TodoModel.find({});
+    
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get("userId");
+ 
+
+    const getTodos = await TodoModel.find({userId});
+    
     if (!getTodos) {
       return NextResponse.json({ error: "No todos found" }, { status: 404 });
     }
@@ -18,8 +24,7 @@ export const GET = async (req) => {
       },
       { status: 200 }
     );
-  } catch (error) {
-    console.error("Error fetching data:", error);
+  } catch (error) { 
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -31,7 +36,7 @@ export const POST = async (req) => {
   await connectDb();
   try {
     const body = await req.json();
-    const { title, description } = body;
+    const { title, description,userId } = body; 
 
     if (!title || !description) {
       return NextResponse.json(
@@ -40,8 +45,8 @@ export const POST = async (req) => {
       );
     }
 
-    const newTodo = new TodoModel({ title, description });
-    await newTodo.save();
+    const newTodo = new TodoModel({ title, description,userId });
+    await newTodo.save(); 
 
     return NextResponse.json({
       message: "POST request successful",
@@ -49,8 +54,7 @@ export const POST = async (req) => {
         newTodo,
       },
     });
-  } catch (error) {
-    console.error("Error creating todo:", error);
+  } catch (error) { 
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -87,8 +91,7 @@ export const PUT = async (req) => {
         updatedTodo,
       },
     });
-  } catch (error) {
-    console.error("Error updating todo:", error);
+  } catch (error) { 
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -116,8 +119,7 @@ export const DELETE = async (req) => {
         deletedTodo,
       },
     });
-  } catch (error) {
-    console.error("Error deleting todo:", error);
+  } catch (error) { 
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

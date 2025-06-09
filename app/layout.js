@@ -1,18 +1,21 @@
+export const dynamic = 'force-dynamic';
 import Navigation from "@/components/Navbar";
-import "./globals.css"; 
+import "./globals.css";
 import { headers } from "next/headers";
+import { getUserFromToken } from "@/lib/auth";
 
 export const metadata = {
   title: "Modern Todo App",
   description: "A beautiful todo app with modern design",
 };
 
-export default async function RootLayout({ children }) { 
- 
+export default async function RootLayout({ children }) {
+  const user = await getUserFromToken()
+
   return (
     <html lang="en">
       <body className="bg-gradient-to-br from-slate-50 to-slate-100">
-        <Navigation />
+        <Navigation userData={user} />
         <div className="min-h-screen pt-16 sm:pt-20">
           <main className="max-w-7xl mx-auto px-4 py-6 sm:py-10 sm:px-6 lg:px-8">
             <div className="animate-fade-in">{children}</div>
